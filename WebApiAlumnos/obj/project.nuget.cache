@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UnKFPNEVhIr9/fkfbyPhVBBTskhdqB1iCTjfy0CmI2FsvqusddDmbaxs//tD1FRcULYjptXakT84acD5943AAA==",
+  "dgSpecHash": "+RXCapnrBl7SbelSPTpP6trLkv0LiidAijv1y4fxSY2bY2ynvTG+sYa4DQa56zVmAhlDw2zI7QT44mBYQ+nOzQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\WebApiAlumnos\\WebApiAlumnos\\WebApiAlumnos.csproj",
+  "projectFilePath": "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\WebApiAlumnos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aless\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\aless\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
@@ -12,6 +12,7 @@
     "C:\\Users\\aless\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\6.0.9\\microsoft.entityframeworkcore.abstractions.6.0.9.nupkg.sha512",
     "C:\\Users\\aless\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\6.0.9\\microsoft.entityframeworkcore.analyzers.6.0.9.nupkg.sha512",
     "C:\\Users\\aless\\.nuget\\packages\\microsoft.entityframeworkcore.design\\6.0.9\\microsoft.entityframeworkcore.design.6.0.9.nupkg.sha512",
+    "C:\\Users\\aless\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\6.0.9\\microsoft.entityframeworkcore.inmemory.6.0.9.nupkg.sha512",
     "C:\\Users\\aless\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\6.0.9\\microsoft.entityframeworkcore.relational.6.0.9.nupkg.sha512",
     "C:\\Users\\aless\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\6.0.9\\microsoft.entityframeworkcore.sqlserver.6.0.9.nupkg.sha512",
     "C:\\Users\\aless\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\6.0.9\\microsoft.entityframeworkcore.tools.6.0.9.nupkg.sha512",

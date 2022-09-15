@@ -11,5 +11,6 @@ namespace WebApiAlumnos
         }
 
         public DbSet<Pais> Paises { get; set; }
+        public DbSet<Empresa> Empresas { get; set; }
     }
 }

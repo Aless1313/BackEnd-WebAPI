@@ -1,4 +1,7 @@
-﻿namespace WebApiAlumnos
+﻿using Microsoft.EntityFrameworkCore;
+using WebApiAlumnos;
+
+namespace WebApiAlumnos
 {
     public class Startup
     {
@@ -14,6 +17,7 @@
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
