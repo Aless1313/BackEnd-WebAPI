@@ -16,7 +16,14 @@ namespace WebApiAlumnos.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Pais>>> Get()
+        public async Task<ActionResult<List<Pais>>> GetAll()
+        {
+            return await dbContext.Paises.Include(x => x.empresas).ToListAsync();
+        }
+
+
+        [HttpGet("/empresas")]
+        public async Task<ActionResult<List<Pais>>> GetEmpresas()
         {
             return await dbContext.Paises.Include(x => x.empresas).ToListAsync();
         }

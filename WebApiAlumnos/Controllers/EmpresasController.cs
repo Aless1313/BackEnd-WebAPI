@@ -21,6 +21,22 @@ namespace WebApiAlumnos.Controllers
             return await dbContext.Empresas.ToListAsync();
         }
 
+
+
+        [HttpGet("{nombre}")]
+        public async Task<ActionResult<Empresa>> GetEmpresa(String nombre)
+        {
+            var empresa = await dbContext.Empresas.FirstOrDefaultAsync(x => x.Nombre == nombre);
+
+            if(empresa == null)
+            {
+                return NotFound();
+            }
+
+            return empresa;
+        }
+        
+
         [HttpPost] 
         public async Task<ActionResult> Post([FromBody] Empresa empresa)
         {
