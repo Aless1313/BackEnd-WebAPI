@@ -2,6 +2,7 @@
 using WebApiAlumnos.Entidades;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace WebApiAlumnos.Controllers
 {
     [ApiController]
@@ -9,15 +10,18 @@ namespace WebApiAlumnos.Controllers
     public class EmpresasController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly ILogger<EmpresasController> log;
 
-        public EmpresasController(ApplicationDbContext dbContext)
+        public EmpresasController(ApplicationDbContext dbContext, ILogger<EmpresasController> log)
         {
             this.dbContext = dbContext;
+            this.log = log;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Empresa>>> GetAll()
         {
+            log.LogInformation("Obteniendo listado");
             return await dbContext.Empresas.ToListAsync();
         }
 
@@ -33,6 +37,7 @@ namespace WebApiAlumnos.Controllers
                 return NotFound();
             }
 
+            log.LogInformation("La empresa es " + nombre);
             return empresa;
         }
         

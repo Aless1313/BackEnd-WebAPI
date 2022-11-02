@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using WebApiAlumnos.Entidades;
+using WebApiAlumnos.Services;
+using WebApiAlumnos.Filtros;
 
 namespace WebApiAlumnos.Controllers
 {
@@ -10,10 +11,47 @@ namespace WebApiAlumnos.Controllers
     public class PaisesController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
-        public PaisesController(ApplicationDbContext context)
+        private readonly IService service;
+        private readonly ServiceTransient serviceTransient;
+        private readonly ServiceScoped serviceScoped;
+        private readonly ServiceSingleton serviceSingleton;
+        private readonly ILogger<PaisesController> logger;
+        private readonly IWebHostEnvironment env;
+
+        private readonly string nuevosRegistros = "nuevosRegistros.txt";
+        private readonly string registrosConsultados = "registrosConsultados.txt";
+        public PaisesController(ApplicationDbContext context, IService service,
+            ServiceTransient serviceTransient, ServiceScoped serviceScoped,
+            ServiceSingleton serviceSingleton, ILogger<PaisesController> logger,
+            IWebHostEnvironment env)
         {
             this.dbContext = context;
+            this.service = service;
+            this.serviceTransient = serviceTransient;
+            this.serviceScoped = serviceScoped;
+            this.serviceSingleton = serviceSingleton;
+            this.logger = logger;
+            this.env = env;
         }
+
+        [HttpGet("GUID")]
+        [ResponseCache(Duration = 10)]
+        [ServiceFilter(typeof(FiltroDeAccion))]
+        public ActionResult ObtenerGuid()
+        {
+            throw new NotImplementedException();
+            logger.LogInformation("Durante la ejecucion");
+            return Ok(new
+            {
+                PaisesControllerTransient = serviceTransient.guid,
+                ServiceA_Transient = service.GetTransient(),
+                PaisesControllerScoped = serviceScoped.guid,
+                ServiceA_Scoped = service.GetScoped(),
+                PaisesControllerSingleton = serviceSingleton.guid,
+                ServiceA_Singleton = service.GetSingleton()
+            });
+        }
+
 
         [HttpGet]
         public async Task<ActionResult<List<Pais>>> GetAll()
@@ -25,7 +63,11 @@ namespace WebApiAlumnos.Controllers
         [HttpGet("/empresas")]
         public async Task<ActionResult<List<Pais>>> GetEmpresas()
         {
+            logger.LogInformation("Se obtiene el listado de empresas");
+            logger.LogWarning("Mensaje de prueba warning");
+            service.EjecutarJob();
             return await dbContext.Paises.Include(x => x.empresas).ToListAsync();
+
         }
 
         [HttpPost] 
@@ -48,6 +90,7 @@ namespace WebApiAlumnos.Controllers
             if(pais.Id != id)
             {
                 return BadRequest("El id no coincide");
+               
             }
 
             dbContext.Update(pais);

@@ -87,3 +87,5 @@ C:\Users\aless\OneDrive\Escritorio\UANL\BackEnd-WebAPI\WebApiAlumnos\obj\Debug\n
 C:\Users\aless\OneDrive\Escritorio\UANL\BackEnd-WebAPI\WebApiAlumnos\obj\Debug\net6.0\WebApiAlumnos.genruntimeconfig.cache
 C:\Users\aless\OneDrive\Escritorio\UANL\BackEnd-WebAPI\WebApiAlumnos\obj\Debug\net6.0\ref\WebApiAlumnos.dll
 C:\Users\aless\OneDrive\Escritorio\UANL\BackEnd-WebAPI\WebApiAlumnos\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\aless\OneDrive\Escritorio\UANL\BackEnd-WebAPI\WebApiAlumnos\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\aless\OneDrive\Escritorio\UANL\BackEnd-WebAPI\WebApiAlumnos\bin\Debug\net6.0\WebApiAlumnos.staticwebassets.runtime.json

@@ -1,5 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApiAlumnos;
+using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
+
+using WebApiAlumnos.Services;
+using WebApiAlumnos.Middlewares;
+using WebApiAlumnos.Filtros;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 
 namespace WebApiAlumnos
 {
@@ -14,14 +23,38 @@ namespace WebApiAlumnos
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(x => 
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+
+            services.AddTransient<IService, ServiceA>();
+            services.AddTransient<ServiceTransient>();
+            services.AddScoped<ServiceScoped>();
+            services.AddSingleton<ServiceSingleton>();
+            services.AddTransient<FiltroDeAccion>();
+            services.AddHostedService<EscribirEnArchivo>();
+            services.AddResponseCaching();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiAlumnos", Version = "v1" });
+            });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            app.useResponseHttpMiddleware();
+            app.Map("/maping", app =>
+            {
+                app.Run(async context =>
+                {
+                    await context.Response.WriteAsync("Interceptando peticiones");
+                });
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseSwagger();

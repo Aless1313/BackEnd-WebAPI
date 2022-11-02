@@ -1,11 +1,37 @@
 {
   "Version": 1,
-  "Hash": "CZ42OVrAayLIgHxkDwatK65HVQl8zYYYvyVS/Abx8Bo=",
+  "Hash": "WPdcDvzvlY/47qyevzxg4YfMhPyJnjPaYL1qkai8tqk=",
   "Source": "WebApiAlumnos",
   "BasePath": "_content/WebApiAlumnos",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "WebApiAlumnos\\wwwroot",
+      "Source": "WebApiAlumnos",
+      "ContentRoot": "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\wwwroot\\",
+      "BasePath": "_content/WebApiAlumnos",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\wwwroot\\Archivo01.txt",
+      "SourceId": "WebApiAlumnos",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\wwwroot\\",
+      "BasePath": "_content/WebApiAlumnos",
+      "RelativePath": "Archivo01.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Archivo01.txt"
+    }
+  ]
 }
