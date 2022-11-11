@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiAlumnos.Entidades;
-using WebApiAlumnos.Services;
-using WebApiAlumnos.Filtros;
+using Microsoft.AspNetCore.Http;
+using WebApiAlumnos.DTOs;
+using AutoMapper;
 
 namespace WebApiAlumnos.Controllers
 {
@@ -11,105 +12,53 @@ namespace WebApiAlumnos.Controllers
     public class PaisesController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly IService service;
-        private readonly ServiceTransient serviceTransient;
-        private readonly ServiceScoped serviceScoped;
-        private readonly ServiceSingleton serviceSingleton;
-        private readonly ILogger<PaisesController> logger;
-        private readonly IWebHostEnvironment env;
+        private readonly IMapper mapper;
 
-        private readonly string nuevosRegistros = "nuevosRegistros.txt";
-        private readonly string registrosConsultados = "registrosConsultados.txt";
-        public PaisesController(ApplicationDbContext context, IService service,
-            ServiceTransient serviceTransient, ServiceScoped serviceScoped,
-            ServiceSingleton serviceSingleton, ILogger<PaisesController> logger,
-            IWebHostEnvironment env)
+        public PaisesController(ApplicationDbContext dbContext, IMapper mapper)
         {
-            this.dbContext = context;
-            this.service = service;
-            this.serviceTransient = serviceTransient;
-            this.serviceScoped = serviceScoped;
-            this.serviceSingleton = serviceSingleton;
-            this.logger = logger;
-            this.env = env;
+            this.dbContext = dbContext;
+            this.mapper = mapper;
         }
 
-        [HttpGet("GUID")]
-        [ResponseCache(Duration = 10)]
-        [ServiceFilter(typeof(FiltroDeAccion))]
-        public ActionResult ObtenerGuid()
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<PaisesDTOConEmpresas>> Get(int id)
         {
-            throw new NotImplementedException();
-            logger.LogInformation("Durante la ejecucion");
-            return Ok(new
+            var pais = await dbContext.Paises.Include(paisdb => paisdb.EmpresaPais).ThenInclude(empresapaisdb => empresapaisdb.Empresa).FirstOrDefaultAsync(x => x.Id == id);
+
+            pais.EmpresaPais = pais.EmpresaPais.OrderBy(x => x.Id).ToList();
+            return mapper.Map<PaisesDTOConEmpresas>(pais);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post(PaisCreacionDTO paisCreacionDTO)
+        {
+            if(paisCreacionDTO.EmpresasIds == null)
             {
-                PaisesControllerTransient = serviceTransient.guid,
-                ServiceA_Transient = service.GetTransient(),
-                PaisesControllerScoped = serviceScoped.guid,
-                ServiceA_Scoped = service.GetScoped(),
-                PaisesControllerSingleton = serviceSingleton.guid,
-                ServiceA_Singleton = service.GetSingleton()
-            });
-        }
+                return BadRequest("No se puede iniciar");
+            }
 
+            var empresaid = await dbContext.Empresas.Where(empresaBD => paisCreacionDTO.EmpresasIds.Contains(empresaBD.Id)).Select(x => x.Id).ToListAsync();
 
-        [HttpGet]
-        public async Task<ActionResult<List<Pais>>> GetAll()
-        {
-            return await dbContext.Paises.Include(x => x.empresas).ToListAsync();
-        }
+            if(paisCreacionDTO.EmpresasIds.Count != empresaid.Count)
+            {
+                return BadRequest("No hay empresa");
+            }
 
+            var pais = mapper.Map<Pais>(paisCreacionDTO);
 
-        [HttpGet("/empresas")]
-        public async Task<ActionResult<List<Pais>>> GetEmpresas()
-        {
-            logger.LogInformation("Se obtiene el listado de empresas");
-            logger.LogWarning("Mensaje de prueba warning");
-            service.EjecutarJob();
-            return await dbContext.Paises.Include(x => x.empresas).ToListAsync();
+            if(pais.EmpresaPais != null)
+            {
+                for(int i = 0; i < pais.EmpresaPais.Count; i++)
+                {
+                    pais.EmpresaPais[i].Id = i;
+                }
+            }
 
-        }
-
-        [HttpPost] 
-        public async Task<ActionResult> Post([FromBody] Pais pais)
-        {
             dbContext.Add(pais);
             await dbContext.SaveChangesAsync();
             return Ok();
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult> Put(Pais pais, int id)
-        {
-            var exist = await dbContext.Paises.AnyAsync(x => x.Id == id);
-            if (!exist)
-            {
-                return NotFound();
-            }
 
-            if(pais.Id != id)
-            {
-                return BadRequest("El id no coincide");
-               
-            }
-
-            dbContext.Update(pais);
-            await dbContext.SaveChangesAsync();
-            return Ok();
-        }
-
-        [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            var exist = await dbContext.Paises.AnyAsync(x => x.Id == id);
-            if (!exist)
-            {
-                return NotFound("Registro no encontrado");
-            }
-
-            dbContext.Remove(new Pais() { Id = id });
-            await dbContext.SaveChangesAsync();
-            return Ok();
-        }
     }
 }

@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\WebApiAlumnos.csproj": {}
+    "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\WebApiPaises.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\WebApiAlumnos.csproj": {
+    "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\WebApiPaises.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\WebApiAlumnos.csproj",
-        "projectName": "WebApiAlumnos",
-        "projectPath": "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\WebApiAlumnos.csproj",
+        "projectUniqueName": "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\WebApiPaises.csproj",
+        "projectName": "WebApiPaises",
+        "projectPath": "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\WebApiPaises.csproj",
         "packagesPath": "C:\\Users\\aless\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\aless\\OneDrive\\Escritorio\\UANL\\BackEnd-WebAPI\\WebApiAlumnos\\obj\\",
         "projectStyle": "PackageReference",
@@ -45,10 +45,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[12.0.0, )"
-            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[6.0.10, )"

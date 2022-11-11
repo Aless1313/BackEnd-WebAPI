@@ -1,7 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApiAlumnos.Entidades;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.VisualBasic;
+using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
+using AutoMapper;
+using WebApiAlumnos.DTOs;
+using WebApiAlumnos.Filtros;
+using WebApiAlumnos.Entidades;
 
 namespace WebApiAlumnos.Controllers
 {
@@ -10,48 +16,54 @@ namespace WebApiAlumnos.Controllers
     public class EmpresasController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly ILogger<EmpresasController> log;
+        
+        private readonly IMapper mapper;
 
-        public EmpresasController(ApplicationDbContext dbContext, ILogger<EmpresasController> log)
+        public EmpresasController(ApplicationDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
-            this.log = log;
+            this.mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Empresa>>> GetAll()
+        public async Task<ActionResult<List<EmpresaDTO>>>Get()
         {
-            log.LogInformation("Obteniendo listado");
-            return await dbContext.Empresas.ToListAsync();
+            var empresas = await dbContext.Empresas.ToListAsync();
+            return mapper.Map<List<EmpresaDTO>>(empresas);
         }
 
-
-
-        [HttpGet("{nombre}")]
-        public async Task<ActionResult<Empresa>> GetEmpresa(String nombre)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<EmpresaDTO>>Get(int id)
         {
-            var empresa = await dbContext.Empresas.FirstOrDefaultAsync(x => x.Nombre == nombre);
+            var empresas = await dbContext.Empresas.Include(empresaDB => empresaDB.EmpresasPais).ThenInclude(empresaPaisDB => empresaPaisDB.Pais).FirstOrDefaultAsync(empresaDB => empresaDB.Id == id);
 
-            if(empresa == null)
+            if(empresas == null)
             {
                 return NotFound();
             }
 
-            log.LogInformation("La empresa es " + nombre);
-            return empresa;
+            return mapper.Map<EmpresaDTOConPais>(empresas);
         }
-        
 
-        [HttpPost] 
-        public async Task<ActionResult> Post([FromBody] Empresa empresa)
+
+        [HttpGet("{nombre}")]
+        public async Task<ActionResult<List<EmpresaDTO>>> Get([FromRoute]string nombre)
         {
-            var exist = await dbContext.Empresas.AnyAsync(x => x.Id == empresa.PaisId);
+            var empresas = await dbContext.Empresas.Where(empresaDB => empresaDB.Nombre.Contains(nombre)).ToListAsync();
+            return mapper.Map<List<EmpresaDTO>>(empresas);
+        }
 
-            if (!exist)
+        [HttpPost]
+        public async Task<ActionResult<EmpresaDTO>> Post([FromBody] EmpresaCreacionDTO empresaCreacionDTO)
+        {
+            var existe = await dbContext.Empresas.AnyAsync(x => x.Nombre == empresaCreacionDTO.Name);
+
+            if (existe)
             {
-                return BadRequest($"No existe pais relacionado al id");
+                return BadRequest("Empresa existente");
             }
 
+            var empresa = mapper.Map<Empresa>(empresaCreacionDTO);
             dbContext.Add(empresa);
             await dbContext.SaveChangesAsync();
             return Ok();
@@ -60,16 +72,11 @@ namespace WebApiAlumnos.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(Empresa empresa, int id)
         {
-            var exist = await dbContext.Empresas.AnyAsync(x => x.Id == id);
-            if (!exist)
-            {
-                return NotFound("Empresa no encontrada");
-            }
-
             if(empresa.Id != id)
             {
-                return BadRequest("Empresa sin id coincidente");
+                return BadRequest("Sin coincidencia");
             }
+
             dbContext.Update(empresa);
             await dbContext.SaveChangesAsync();
             return Ok();
@@ -78,17 +85,20 @@ namespace WebApiAlumnos.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var exist = await dbContext.Empresas.AnyAsync(x => x.Id == id);
+            var existe = await dbContext.Empresas.AnyAsync(x => x.Id == id);
 
-            if (!exist)
+            if (!existe)
             {
-                return NotFound("Registro no encontrado");
+                return NotFound();
             }
 
-            dbContext.Remove(new Empresa() { Id = id });
-
+            dbContext.Remove(new Empresa()
+            {
+                Id = id
+            });
             await dbContext.SaveChangesAsync();
             return Ok();
         }
+
     }
 }
