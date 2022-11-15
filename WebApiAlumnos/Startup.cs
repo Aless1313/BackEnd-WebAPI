@@ -2,7 +2,6 @@
 using WebApiAlumnos;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
-using WebApiAlumnos.Middlewares;
 using WebApiAlumnos.Filtros;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
@@ -42,7 +41,7 @@ namespace WebApiAlumnos
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
-            app.useResponseHttpMiddleware();
+            //app.useResponseHttpMiddleware();
 
             /*app.Map("/maping", app =>
             {

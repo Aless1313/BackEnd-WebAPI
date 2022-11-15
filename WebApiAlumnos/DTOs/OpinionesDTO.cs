@@ -3,6 +3,6 @@
     public class OpinionesDTO
     {
         public int Id { get; set; }
-        public string Contenido { get; set; }
+        public string Texto { get; set; }
     }
 }

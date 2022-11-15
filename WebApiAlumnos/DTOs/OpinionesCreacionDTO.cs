@@ -4,6 +4,6 @@ namespace WebApiAlumnos.DTOs
 {
     public class OpinionesCreacionDTO
     {
-        public string Contenido { get; set; }
+        public string Texto { get; set; }
     }
 }

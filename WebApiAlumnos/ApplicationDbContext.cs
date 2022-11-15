@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApiAlumnos.Entidades;
-using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApiAlumnos
 {

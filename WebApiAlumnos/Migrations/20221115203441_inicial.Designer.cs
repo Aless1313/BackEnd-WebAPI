@@ -11,8 +11,8 @@ using WebApiAlumnos;
 namespace WebApiAlumnos.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221111034711_Inicial")]
-    partial class Inicial
+    [Migration("20221115203441_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,9 +35,6 @@ namespace WebApiAlumnos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("fundacion")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Empresas");
@@ -51,7 +48,7 @@ namespace WebApiAlumnos.Migrations
                     b.Property<int>("PaisId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("Orden")
                         .HasColumnType("int");
 
                     b.HasKey("EmpresaId", "PaisId");

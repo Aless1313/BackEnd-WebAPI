@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using WebApiAlumnos.Validaciones;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApiAlumnos.Entidades
 {
@@ -12,8 +11,8 @@ namespace WebApiAlumnos.Entidades
         [PrimeraLetraMayuscula]
         public string Nombre { get; set; }
 
-        [Range(0, 2022, ErrorMessage = "Año no valido")]
-        public int fundacion { get; set; }
+        //[Range(0, 2022, ErrorMessage = "Año no valido")]
+        //public int fundacion { get; set; }
 
         public List<EmpresaPais> EmpresasPais { get; set; }
     }

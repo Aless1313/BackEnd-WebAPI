@@ -54,6 +54,42 @@ namespace WebApiAlumnos.Controllers
             await dbContext.SaveChangesAsync();
             return Ok();
         }
+
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> Put(OpinionesCreacionDTO opinionesDto, int id)
+        {
+            var exist = await dbContext.Opiniones.AnyAsync(x => x.Id == id);
+            if (!exist)
+            {
+                return NotFound();
+            }
+
+            var opinion = mapper.Map<Opiniones>(opinionesDto);
+            opinion.Id = id;
+
+            dbContext.Update(opinion);
+            await dbContext.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var existe = await dbContext.Opiniones.AnyAsync(x => x.Id == id);
+
+            if (!existe)
+            {
+                return NotFound();
+            }
+
+            dbContext.Remove(new Opiniones()
+            {
+                Id = id
+            });
+            await dbContext.SaveChangesAsync();
+            return Ok();
+        }
     }
 
 }

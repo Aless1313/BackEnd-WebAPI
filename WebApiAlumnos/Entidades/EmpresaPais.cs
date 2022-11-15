@@ -6,7 +6,7 @@ namespace WebApiAlumnos.Entidades
 {
     public class EmpresaPais
     {
-        public int Id { get; set; }
+        public int Orden { get; set; }
         public int PaisId { get; set; }
         public int EmpresaId { get; set; }
         public Pais Pais{ get; set; }

@@ -33,9 +33,6 @@ namespace WebApiAlumnos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("fundacion")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.ToTable("Empresas");
@@ -49,7 +46,7 @@ namespace WebApiAlumnos.Migrations
                     b.Property<int>("PaisId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("Orden")
                         .HasColumnType("int");
 
                     b.HasKey("EmpresaId", "PaisId");

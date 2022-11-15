@@ -7,7 +7,7 @@ namespace WebApiAlumnos.DTOs
     {
         [PrimeraLetraMayuscula]
         [StringLength(maximumLength: 250)]
-        public string Name { get; set; }
+        public string Nombre { get; set; }
         public List<int> EmpresasIds { get; set; }
     }
 }

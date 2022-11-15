@@ -8,6 +8,6 @@ namespace WebApiAlumnos.DTOs
         [Required(ErrorMessage = "El campo es requerido")]
         [StringLength(maximumLength:25, ErrorMessage ="El campo es invalido")]
         [PrimeraLetraMayuscula]
-        public string Name { get; set; }
+        public string Nombre { get; set; }
     }
 }

@@ -56,7 +56,7 @@ namespace WebApiAlumnos.Controllers
         [HttpPost]
         public async Task<ActionResult<EmpresaDTO>> Post([FromBody] EmpresaCreacionDTO empresaCreacionDTO)
         {
-            var existe = await dbContext.Empresas.AnyAsync(x => x.Nombre == empresaCreacionDTO.Name);
+            var existe = await dbContext.Empresas.AnyAsync(x => x.Nombre == empresaCreacionDTO.Nombre);
 
             if (existe)
             {

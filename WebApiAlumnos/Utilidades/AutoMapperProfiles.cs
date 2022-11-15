@@ -36,7 +36,7 @@ namespace WebApiAlumnos.Utilidades
                 resultado.Add(new PaisDTO()
                 {
                     Id = empresaPais.PaisId,
-                    Name = empresaPais.Pais.Nombre
+                    Nombre = empresaPais.Pais.Nombre
                 });
             }
             return resultado;
@@ -56,7 +56,7 @@ namespace WebApiAlumnos.Utilidades
                 resultado.Add(new EmpresaDTO()
                 {
                     Id = empresaPais.EmpresaId,
-                    Name = empresaPais.Pais.Nombre
+                    Nombre = empresaPais.Pais.Nombre
                 }); ;
             }
             return resultado;
