@@ -2,24 +2,30 @@
 using Microsoft.EntityFrameworkCore;
 using WebApiAlumnos.DTOs;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using WebApiAlumnos.Entidades;
-
-
+using Microsoft.AspNetCore.Server.HttpSys;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApiAlumnos.Controllers
 {
     [ApiController]
     [Route("api/paises/{paisesId:int}/opiniones")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class OpinionesController : ControllerBase
     {
 
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
+        
+
 
         public OpinionesController(ApplicationDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
+          
         }
         
         [HttpGet]
@@ -39,8 +45,11 @@ namespace WebApiAlumnos.Controllers
 
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> Post(int paisId, OpinionesCreacionDTO opinionesCreacionDTO)
         {
+           
+
             var existe = await dbContext.Paises.AnyAsync(paisDB => paisDB.Id == paisId);
 
             if (!existe)
@@ -50,6 +59,7 @@ namespace WebApiAlumnos.Controllers
 
             var opinion = mapper.Map<Opiniones>(opinionesCreacionDTO);
             opinion.PaisId = paisId;
+            
             dbContext.Add(opinion);
             await dbContext.SaveChangesAsync();
             return Ok();

@@ -18,7 +18,7 @@ namespace WebApiAlumnos.Utilidades
 
             CreateMap<Pais, PaisDTO>();
             CreateMap<Pais, PaisesDTOConEmpresas>().ForMember(PaisDTO => PaisDTO.Empresas, opciones => opciones.MapFrom(MapPaisDTOEmpresa));
-
+            CreateMap<PaisPatchDTO, Pais>().ReverseMap();
             CreateMap<OpinionesCreacionDTO, Opiniones>();
             CreateMap<Opiniones, OpinionesDTO>();
         }

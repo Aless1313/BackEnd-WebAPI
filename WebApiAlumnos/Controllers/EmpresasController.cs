@@ -8,21 +8,27 @@ using AutoMapper;
 using WebApiAlumnos.DTOs;
 using WebApiAlumnos.Filtros;
 using WebApiAlumnos.Entidades;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApiAlumnos.Controllers
 {
     [ApiController]
     [Route("api/empresas")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class EmpresasController : ControllerBase
     {
         private readonly ApplicationDbContext dbContext;
         
         private readonly IMapper mapper;
+        private readonly UserManager<IdentityUser> userManager;
 
-        public EmpresasController(ApplicationDbContext dbContext, IMapper mapper)
+        public EmpresasController(ApplicationDbContext dbContext, IMapper mapper, UserManager<IdentityUser> userManager)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -54,8 +60,16 @@ namespace WebApiAlumnos.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<EmpresaDTO>> Post([FromBody] EmpresaCreacionDTO empresaCreacionDTO)
         {
+            var emailClaim = HttpContext.User.Claims.Where(claim => claim.Type == "email").FirstOrDefault();
+
+            var email = emailClaim.Value;
+
+            var usuario = await userManager.FindByEmailAsync(email);
+            var usuarioId = usuario.Id;
+
             var existe = await dbContext.Empresas.AnyAsync(x => x.Nombre == empresaCreacionDTO.Nombre);
 
             if (existe)
