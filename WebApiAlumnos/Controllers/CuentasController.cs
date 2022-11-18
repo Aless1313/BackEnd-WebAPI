@@ -29,7 +29,10 @@ namespace WebApiAlumnos.Controllers
         [HttpPost("registrar")]
         public async Task<ActionResult<RespuestaAutenticacion>> Registrar(CredencialesUsuario credenciales)
         {
-            var user = new IdentityUser { UserName = credenciales.Email, Email = credenciales.Email };
+            var user = new IdentityUser { 
+                UserName = credenciales.Email, 
+                Email = credenciales.Email 
+            };
             var result = await userManager.CreateAsync(user, credenciales.Password);
 
             if (result.Succeeded)
@@ -92,7 +95,7 @@ namespace WebApiAlumnos.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["keyjwt"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expiration = DateTime.UtcNow.AddMinutes(30);
+            var expiration = DateTime.UtcNow.AddMinutes(60);
 
             var securityToken = new JwtSecurityToken(issuer: null, audience: null, claims: claims,
                 expires: expiration, signingCredentials: creds);
